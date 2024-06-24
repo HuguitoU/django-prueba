@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Alumnos
+from .forms import ComentarioContactoForm
 #Accedemos al modelo alumnos que contiene la estructura de la tabña
 
 # Create your views here.
@@ -8,4 +9,17 @@ def registros(request):
     #all recupera todos los objetos del modelo (registros de la tabla alumnos)
     return render(request, "registros/principal.html", {'alumnos':alumnos})
     #indicamos el lugar donde se renderizara el resultado de esta vista y enviamos la lista de alumnos recuperados
+    
+def registrar(request):
+    if request.method == 'POST':
+        form = ComentarioContactoForm(request.POST)
+        if form.is_valid(): #Si los datos recibidos son correctos
+                form.save() #inserta
+                return render(request, 'registros/contacto.html')
+    form = ComentarioContactoForm()
+    #Si algo sale mal se reenvian al formulario los datos ingresados
+    return render(request, 'registros/contacto.html',{'form: form'})
+
+def contacto(request):
+     return render(request, "registros/contacto.html")
     
