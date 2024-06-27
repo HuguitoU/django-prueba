@@ -32,6 +32,8 @@
           <th>Nombre</th>
           <th>Carrera</th>
           <th>Turno</th>
+          <th></th>
+          <th></th>
         </tr>
       <tbody>
         {% for alumno in alumnos %}
@@ -43,6 +45,8 @@
             <td class = "muted">{{alumno.nombre}}</td>
             <td class = "muted">{{alumno.carrera}}</td>
             <td class = "muted">{{alumno.turno}}</td>
+            <td class = "muted">Editar</td>
+            <td class = "muted">Eliminar</td>
           </tr>
         {% endfor %}
       </tbody>
