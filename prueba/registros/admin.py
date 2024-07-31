@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Alumnos, Comentario, ComentarioContacto
+from .models import Alumnos, Comentario, ComentarioContacto, Archivos
 
 # Register your models here.
 class AdministrarModelo(admin.ModelAdmin):
@@ -8,6 +8,15 @@ class AdministrarModelo(admin.ModelAdmin):
     search_fields = ('matricula', 'nombre', 'carrera', 'turno') #Barra de 
     date_hierarchy = 'created'
     list_filter = ('carrera', 'turno')
+    list_per_page = 2
+    list_display_links = ('matricula', 'nombre')
+    list_editable = ('turno',)
+
+    def get_readonly_fields(self, request, obj = None):
+        if request.user.groups.filter(name = "Usuarios").exists():
+            return('matricula', 'carrera', 'turno')
+        else:
+            return('created','updated')
 
 admin.site.register(Alumnos, AdministrarModelo)
 
@@ -26,3 +35,9 @@ class AdministrarComentariosContacto(admin.ModelAdmin):
     readonly_fields = ('created', 'id')
 
 admin.site.register(ComentarioContacto, AdministrarComentariosContacto)
+
+
+class AdministrarArchivos(admin.ModelAdmin):
+    list_display = ('id', 'titulo')
+
+admin.site.register(Archivos, AdministrarArchivos)
